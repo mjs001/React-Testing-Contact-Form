@@ -24,9 +24,6 @@ test("form submits and prints out the info", () => {
 
   fireEvent.click(getByTestId(/submit/i));
 
-  const FirstNameInputV = getByTestId("Mel");
-  const LastNameInputV = getByTestId("Gibson");
-
-  expect(FirstNameInputV).toBeInTheDocument();
-  expect(LastNameInputV).toBeInTheDocument();
+  expect(FirstNameInput).toBeInTheDocument();
+  expect(LastNameInput).toBeInTheDocument();
 });
