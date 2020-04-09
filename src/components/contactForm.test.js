@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import ContactForm from "./ContactForm";
+import { act } from "react-dom/test-utils";
 test("inputs are showing", () => {
   const { getByLabelText } = render(<ContactForm />);
 
@@ -11,19 +12,23 @@ test("inputs are showing", () => {
 });
 
 test("form submits and prints out the info", () => {
-  const { getByText, getByTestId } = render(<ContactForm />);
+  async () => {
+    await act(async () => {
+      const { getByTestId } = render(<ContactForm />);
 
-  const FirstNameInput = getByTestId(/FNInput/i);
-  const LastNameInput = getByTestId(/LNInput/i);
+      const FirstNameInput = getByTestId(/FNInput/i);
+      const LastNameInput = getByTestId(/LNInput/i);
 
-  fireEvent.change(FirstNameInput, { target: { value: "Mel" } });
-  fireEvent.change(LastNameInput, { target: { value: "Gibson" } });
+      fireEvent.change(FirstNameInput, { target: { value: "Mel" } });
+      fireEvent.change(LastNameInput, { target: { value: "Gibson" } });
 
-  expect(FirstNameInput.value).toBe("Mel");
-  expect(LastNameInput.value).toBe("Gibson");
+      expect(FirstNameInput.value).toBe("Mel");
+      expect(LastNameInput.value).toBe("Gibson");
 
-  fireEvent.click(getByTestId(/submit/i));
+      fireEvent.click(getByTestId(/submit/i));
 
-  expect(FirstNameInput).toBeInTheDocument();
-  expect(LastNameInput).toBeInTheDocument();
+      expect(FirstNameInput).toBeInTheDocument();
+      expect(LastNameInput).toBeInTheDocument();
+    });
+  };
 });
