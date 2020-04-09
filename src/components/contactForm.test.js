@@ -11,14 +11,22 @@ test("inputs are showing", () => {
 });
 
 test("form submits and prints out the info", () => {
-  const { getByLabelText, getByText, getByTestId } = render(<ContactForm />);
+  const { getByText, getByTestId } = render(<ContactForm />);
 
-  const FirstNameInput = getByPlaceholderText(/bill/i);
-  const LastNameInput = getByPlaceholderText(/luo/i);
+  const FirstNameInput = getByTestId(/FNInput/i);
+  const LastNameInput = getByTestId(/LNInput/i);
 
   fireEvent.change(FirstNameInput, { target: { value: "Mel" } });
   fireEvent.change(LastNameInput, { target: { value: "Gibson" } });
 
   expect(FirstNameInput.value).toBe("Mel");
   expect(LastNameInput.value).toBe("Gibson");
+
+  fireEvent.click(getByTestId(/submit/i));
+
+  const FirstNameInputV = getByTestId("Mel");
+  const LastNameInputV = getByTestId("Gibson");
+
+  expect(FirstNameInputV).toBeInTheDocument();
+  expect(LastNameInputV).toBeInTheDocument();
 });
